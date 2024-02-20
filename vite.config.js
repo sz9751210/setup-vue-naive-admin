@@ -1,10 +1,11 @@
 import { defineConfig, loadEnv } from "vite";
-import vue from "@vitejs/plugin-vue";
 import path from "path";
 import { createProxy, wrapperEnv } from "./build/utils.js";
+import { createVitePlugins } from "./build/plugin/index.js";
 
 // https://vitejs.dev/config/
 export default defineConfig(({ command, mode }) => {
+  const isBuild = command === "build";
   // 加載當前模式下的環境變量
   const env = loadEnv(mode, process.cwd());
   // 使用自定義函式處理環境變量
@@ -13,7 +14,7 @@ export default defineConfig(({ command, mode }) => {
   // 從處理後的環境變量中解構需要的變量
   const { VITE_PORT, VITE_PUBLIC_PATH, VITE_PROXY } = viteEnv;
   return {
-    plugins: [vue()],
+    plugins: createVitePlugins(viteEnv, isBuild),
     base: VITE_PUBLIC_PATH || '/', // 設置應用的基礎路徑
     resolve: {
       // 配置路徑別名
