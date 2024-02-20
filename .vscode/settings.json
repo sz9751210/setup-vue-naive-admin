@@ -1,0 +1,17 @@
+{
+    // 定義哪些檔案類型將啟用 ESLint 驗證。這裡包括了 JavaScript、React 的 JavaScript (.jsx)、TypeScript、以及 Vue 檔案。
+    "eslint.validate": ["javascript", "javascriptreact", "typescript", "vue"],
+  
+    // 在檔案保存時執行的代碼動作。這裡設定為自動執行所有 ESLint 的自動修復，幫助維持代碼質量和風格一致性。
+    "editor.codeActionsOnSave": {
+      "source.fixAll.eslint": "explicit"
+    },
+  
+    // 控制是否在檔案保存時自動格式化。這裡關閉了自動格式化功能，以避免與 ESLint 的修復功能發生衝突或重複格式化。
+    "editor.formatOnSave": false,
+
+    // 在新建檔案時，設定檔案的 EOL 格式。這裡設定為 Unix 樣式的換行符號。
+    "files.eol": "\n",
+
+  }
+  
