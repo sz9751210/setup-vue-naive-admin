@@ -3,7 +3,7 @@ module.exports = {
   root: true,
 
   // 擴展一組特定的規則集。這裡擴展了適用於Vue 3的推薦規則
-  extends: ['plugin:vue/vue3-recommended'],
+  extends: ['plugin:vue/vue3-recommended', 'plugin:prettier/recommended'],
 
   // 自定義的規則設定
   rules: {
