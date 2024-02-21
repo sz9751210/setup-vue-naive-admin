@@ -146,4 +146,77 @@ export function isWindow(val) {
   return typeof window !== 'undefined' && isDef(window) && is(val, 'Window')
 }
 
-// 以下函數的註解省略，因為它們的用途和用法與上述類似，主要是進行不同條件的值檢查。
+/**
+ * 检查变量是否为null或undefined。
+ * @param {*} val - 需要检查的变量。
+ * @returns {Boolean} - 如果变量是null或undefined，则返回true；否则返回false。
+ */
+export function isNullOrUndef(val) {
+  return isNull(val) || isUndef(val)
+}
+
+/**
+ * 检查变量是否为null、undefined或空字符串。
+ * @param {*} val - 需要检查的变量。
+ * @returns {Boolean} - 如果变量是null、undefined或空字符串，则返回true；否则返回false。
+ */
+export function isNullOrWhitespace(val) {
+  return isNullOrUndef(val) || isWhitespace(val)
+}
+
+/**
+ * 检查变量是否为空（空字符串、空数组、空对象、null、undefined）。
+ * @param {*} val - 需要检查的变量。
+ * @returns {Boolean} - 如果变量为空，则返回true；否则返回false。
+ */
+export function isEmpty(val) {
+  if (isArray(val) || isString(val)) {
+    return val.length === 0
+  }
+
+  if (val instanceof Map || val instanceof Set) {
+    return val.size === 0
+  }
+
+  if (isObject(val)) {
+    return Object.keys(val).length === 0
+  }
+
+  return false
+}
+
+/**
+ * 类似于MySQL的IFNULL函数，如果第一个参数为null/undefined/空字符串，则返回第二个参数。
+ * @param {Number|Boolean|String} val - 需要检查的变量。
+ * @param {Number|Boolean|String} def - 默认值，如果第一个参数为null/undefined/空字符串。
+ * @returns {Number|Boolean|String} - 返回第一个参数或第二个参数作为备用值。
+ */
+export function ifNull(val, def = '') {
+  return isNullOrWhitespace(val) ? def : val
+}
+
+/**
+ * 检查给定的路径是否为URL格式。
+ * @param {String} path - 需要检查的路径。
+ * @returns {Boolean} - 如果路径符合URL格式，则返回true；否则返回false。
+ */
+export function isUrl(path) {
+  const reg =
+    /(((^https?:(?:\/\/)?)(?:[-;:&=\+\$,\w]+@)?[A-Za-z0-9.-]+(?::\d+)?|(?:www.|[-;:&=\+\$,\w]+@)[A-Za-z0-9.-]+)((?:\/[\+~%\/.\w-_]*)?\??(?:[-\+=&;%@.\w_]*)#?(?:[\w]*))?)$/
+  return reg.test(path)
+}
+
+/**
+ * 检查给定的路径是否为外部URL。
+ * @param {String} path - 需要检查的路径。
+ * @returns {Boolean} - 如果路径为外部URL（例如以http、https、mailto或tel开头），则返回true；否则返回false。
+ */
+export function isExternal(path) {
+  return /^(https?:|mailto:|tel:)/.test(path)
+}
+
+// 检查当前环境是否为服务器环境（即是否在浏览器环境之外）
+export const isServer = typeof window === 'undefined'
+
+// 检查当前环境是否为客户端环境（浏览器环境）
+export const isClient = !isServer
