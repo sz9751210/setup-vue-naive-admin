@@ -1,5 +1,11 @@
 export const basicRoutes = [
   {
+    name: '404',
+    path: '/404',
+    component: () => import('@/views/error-page/404.vue'),
+    isHidden: true,
+  },
+  {
     // 定义登录页的路由
     name: 'LOGIN', // 路由的名称
     path: '/login', // 路由的路径
