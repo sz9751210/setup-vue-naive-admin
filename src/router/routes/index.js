@@ -35,6 +35,30 @@ export const basicRoutes = [
   },
 ]
 
+// 定义一个特殊的路由规则，用于捕获未匹配的所有路径，并重定向到自定义的404页面
+export const NOT_FOUND_ROUTE = {
+  name: 'NotFound', // 路由名称
+  path: '/:pathMatch(.*)*', // 使用正则表达式匹配所有路径
+  redirect: '/404', // 重定向到/404路径
+  isHidden: true, // 自定义属性，表示此路由在导航菜单中不显示
+}
+
+// 使用Vite的import.meta.globEager函数动态导入./modules目录下的所有.js文件
+// 这个特性允许在构建时静态解析和导入模块，以实现模块的自动加载
+const modules = import.meta.globEager('./modules/*.js')
+
+// 初始化一个空数组，用于存储从模块中导出的路由规则
+const asyncRoutes = []
+
+// 遍历modules对象，获取所有导出的路由规则，并将它们添加到asyncRoutes数组中
+Object.keys(modules).forEach((key) => {
+  // 使用...运算符展开每个模块默认导出的路由数组，并将它们添加到asyncRoutes数组中
+  asyncRoutes.push(...modules[key].default)
+})
+
+// 导出asyncRoutes数组，包含了应用中所有动态导入的路由规则
+export { asyncRoutes }
+
 // 组件懒加载：使用 () => import('@/views/...') 的形式导入组件，这种方式被称为组件的懒加载。它意味着该组件只有在需要时（即路由被访问时）才会被加载，这有助于提高应用的加载速度和性能。
 
 // meta 属性：meta 属性用于存储路由的元信息，如页面标题（title）。这些信息可以在路由守卫或组件中被访问和使用，例如动态设置文档标题。
