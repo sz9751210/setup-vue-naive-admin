@@ -1,7 +1,7 @@
 import { createHtmlPlugin } from 'vite-plugin-html'
 
 export function configHtmlPlugin(viteEnv, isBuild) {
-  const { VITE_APP_TITLE } = viteEnv;
+  const { VITE_APP_TITLE } = viteEnv
   const htmlPlugin = createHtmlPlugin({
     minify: isBuild,
     inject: {
@@ -9,6 +9,6 @@ export function configHtmlPlugin(viteEnv, isBuild) {
         title: VITE_APP_TITLE,
       },
     },
-  });
-  return htmlPlugin;
+  })
+  return htmlPlugin
 }
