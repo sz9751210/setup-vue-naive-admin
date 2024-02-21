@@ -45,7 +45,7 @@ export const NOT_FOUND_ROUTE = {
 
 // 使用Vite的import.meta.globEager函数动态导入./modules目录下的所有.js文件
 // 这个特性允许在构建时静态解析和导入模块，以实现模块的自动加载
-const modules = import.meta.globEager('./modules/*.js')
+const modules = import.meta.glob('./modules/*.js', { eager: true })
 
 // 初始化一个空数组，用于存储从模块中导出的路由规则
 const asyncRoutes = []

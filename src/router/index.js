@@ -2,6 +2,7 @@
 import { createRouter, createWebHashHistory } from 'vue-router'
 // 从当前目录下的routes.js文件中导入basicRoutes并重命名为routes
 import { basicRoutes as routes } from './routes'
+import { setupRouterGuard } from './guard'
 
 /**
  * 创建并导出一个Vue Router实例
@@ -32,4 +33,6 @@ export const router = createRouter({
 export function setupRouter(app) {
   // 使用Vue应用实例的use方法注册路由插件
   app.use(router)
+  // 应用路由守卫
+  setupRouterGuard(router)
 }
