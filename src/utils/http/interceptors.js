@@ -9,9 +9,32 @@ import { isNullOrUndef } from '@/utils/is'
  */
 export function reqResolve(config) {
   // 如果請求方法為GET，則在請求的params中添加一個時間戳參數
+  // 防止缓存，给GET请求加上时间戳
   if (config.method === 'get') {
+    // 使用展开运算符复制现有的查询参数，然后添加时间戳`t`
     config.params = { ...config.params, t: new Date().getTime() }
   }
+
+  // 处理不需要token的请求
+  if (isWithoutToken(config)) {
+    // 如果请求被标记为无需Token，则直接返回修改后的配置对象
+    return config
+  }
+
+  // 尝试从存储中获取Token
+  const token = getToken()
+  if (!token) {
+    // 如果没有Token，视为未登录或Token过期，执行登出操作并跳转到登录页
+    toLogin()
+    // 返回一个拒绝的Promise，中断请求并带有错误信息
+    return Promise.reject({ code: '-1', message: '未登录' })
+  }
+
+  // 为请求添加JWT Token认证头部
+  // 使用Bearer令牌认证方案，如果headers中已存在Authorization则不覆盖
+  config.headers.Authorization = config.headers.Authorization || 'Bearer ' + token
+
+  // 返回修改后的请求配置对象
   return config
 }
 
